@@ -104,3 +104,4 @@ print(x)
 ```
 ## 结语
 　　到此，我们就成功登录了UPC教务系统并获取了成绩，效果如下图，是不是觉得并没有想象中那么难！感谢B站anycodes的视频和徐锐学弟分享的爬虫课件！不忘初心，砥砺前行！
+![](https://github.com/cyh42/UPC/blob/master/cj.jpg)
