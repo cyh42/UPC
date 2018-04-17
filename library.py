@@ -6,18 +6,23 @@ from bs4 import BeautifulSoup
 from prettytable import PrettyTable
 import sys
 from PIL import Image
+import pytesser3
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
+import time
+time1 = time.time()
 sys.setrecursionlimit(1000000) #解决递归限制
 
 j = 0
+fp = open("Cookie.txt", "a")
+fp.close()
 while(True):
     def Email(str):
-        msg_from = '你的邮箱'  # 发送方邮箱
-        passwd = '你的邮箱的授权码'  # 填入发送方邮箱的授权码
-        msg_to = '你的邮箱'  # 收件人邮箱
+        msg_from = '931282603@qq.com'  # 发送方邮箱
+        passwd = 'krlbraovzmvibcfh'  # 填入发送方邮箱的授权码
+        msg_to = '931282603@qq.com'  # 收件人邮箱
 
         message = MIMEMultipart()
         message['From'] = Header("sky", 'utf-8')
@@ -63,6 +68,7 @@ while(True):
         f.write(urllib.request.urlopen(urllib.request.Request(url=image_pic, headers=getHeaders())).read())
 
     l = image_data.headers["Set-Cookie"]
+    #print(l)
     try:
         ID = l.split(";")[0]
         #print(ID)
@@ -70,24 +76,24 @@ while(True):
     except:
         ''
 
-    #verify = pytesser3.image_file_to_string("verify.png")
-    #print(verify)
     j = j + 1
     book_lst = 'http://211.87.177.4/reader/book_lst.php'
     r = urllib.request.urlopen(urllib.request.Request(url=book_lst,headers=getHeaders(Cookie))).read().decode('utf-8')
     soup = BeautifulSoup(r, "lxml")
     info = soup.find_all('li')[10].string
-    if ((info == '') or (j != 2)):
+    #print(info)
+    if (info):
         verify = "1234"
     else:
         img = Image.open("verify.png")
-        img.show()
-        verify = input("verify:")
+        verify = pytesser3.image_to_string(img)
+        verify = verify[0:4]
+        print(verify)
 
     post_url = 'http://211.87.177.4/reader/redr_verify.php'
     post_data = {
-        'number': '你的学号',
-        'passwd': '你的密码',
+        'number': '你的图书馆账号',
+        'passwd': '你的图书馆密码',
         'captcha': verify,
         'select': 'cert_no',
         'returnUrl': ''
@@ -96,9 +102,9 @@ while(True):
     #print(urllib.request.urlopen(urllib.request.Request(url=post_url, data=urllib.parse.urlencode(post_data).encode('utf-8'),headers=getHeaders(Cookie))).read().decode('utf-8'))
     s = urllib.request.urlopen(urllib.request.Request(url=post_url, data=urllib.parse.urlencode(post_data).encode('utf-8'),headers=getHeaders(Cookie))).read().decode('utf-8')
     r = urllib.request.urlopen(urllib.request.Request(url=book_lst, data=urllib.parse.urlencode(post_data).encode('utf-8'),headers=getHeaders(Cookie))).read().decode('utf-8')
-
     soup = BeautifulSoup(r, "lxml")
     info = soup.find_all('li')[10].string
+    #print(info)
     if(info):
         x = PrettyTable(["书名", "借阅日期", "当前日期", "应还日期", "剩余天数"])
         table = soup.find(width="100%")
@@ -116,12 +122,13 @@ while(True):
                 d2 = datetime.datetime.strptime(future, '%Y-%m-%d')
                 delta = d2 - d1
                 x.add_row([book.string, td[2].string, d1, d2, delta.days])
-                if(delta.days <= 10):
+                if(delta.days < 10):
                     str = '《' + book.string + '》还有' +  str(delta.days) + '天就要到期了，记得续借哟！\n' + '应还日期' + str(d2)
-                    #print(str)
+                    print(str)
                     Email(str)
 
         print(x)
+        input()
         break
     else:
         continue
