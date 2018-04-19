@@ -8,6 +8,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 import datetime
+num = ['七', '一', '二', '三', '四', '五', '六']
 d1 = datetime.date.today()
 d2 = datetime.date(2018, 3, 4)
 cha = (d1-d2).days + 1
@@ -15,7 +16,6 @@ week = int(cha/7)+1
 day = cha%7
 
 def Email(Emailstr, week, day):
-    num = ['七', '一', '二', '三', '四', '五', '六']
     msg_from = '发送方邮箱'  # 发送方邮箱
     passwd = '发送方邮箱的授权码'  # 填入发送方邮箱的授权码
     msg_to = '收件人邮箱'  # 收件人邮箱
@@ -74,7 +74,6 @@ for i in range(5):
     tValue = json.loads(tJOSN)
     #print(tValue)
 
-    #print(Emailstr1)
     for k in tValue.keys():
         if str(type(tValue[k]))!="<class 'dict'>":
             #print(k+':'+ str(tValue[k]))
@@ -85,4 +84,7 @@ for i in range(5):
                 print(str(tValue[k][k1]))
                 tJOSN = str(tValue[k][k1])
     Emailstr = Emailstr + '\n'
+print('第' + str(week) + '周星期' + str(num[day]) + '空闲教室\n')
+print(Emailstr)
 Email(Emailstr, week, day)
+#input()
