@@ -1,3 +1,4 @@
+* [classroom.py：查询次日空闲教室并自动发送结果到邮箱](https://github.com/cyh42/UPC/blob/master/classroom.py)
 * [library.py：帝国能源大学图书借阅信息查询及发送到期提醒到邮箱](https://github.com/cyh42/UPC/blob/master/library.py)
 * [work.py：爬取UPC就业指导中心历年毕业生去向信息](https://github.com/cyh42/UPC/blob/master/work.py)
 * [zhxyapp.py：python+urllib+BeautifulSoup登陆UPC教务系统获取成绩信息](https://github.com/cyh42/UPC/blob/master/zhxyapp.py)
