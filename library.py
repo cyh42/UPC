@@ -20,9 +20,9 @@ fp = open("Cookie.txt", "a")
 fp.close()
 while(True):
     def Email(str):
-        msg_from = '931282603@qq.com'  # 发送方邮箱
-        passwd = 'krlbraovzmvibcfh'  # 填入发送方邮箱的授权码
-        msg_to = '931282603@qq.com'  # 收件人邮箱
+        msg_from = '发送方邮箱'  # 发送方邮箱
+        passwd = '发送方邮箱的授权码'  # 填入发送方邮箱的授权码
+        msg_to = '收件人邮箱'  # 收件人邮箱
 
         message = MIMEMultipart()
         message['From'] = Header("sky", 'utf-8')
@@ -51,7 +51,7 @@ while(True):
 
     def getHeaders(ID = Cookie):
         headers = {
-            'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+            'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Accept-Encoding': 'gzip, deflate',
             'Accept-Language': 'zh-CN,zh;q=0.9',
             'Connection': 'Keep-Alive',
@@ -88,11 +88,11 @@ while(True):
         img = Image.open("verify.png")
         verify = pytesser3.image_to_string(img)
         verify = verify[0:4]
-        print(verify)
+        #print(verify)
 
     post_url = 'http://211.87.177.4/reader/redr_verify.php'
     post_data = {
-        'number': '你的图书馆账号',
+        'number': '你的学号',
         'passwd': '你的图书馆密码',
         'captcha': verify,
         'select': 'cert_no',
@@ -110,6 +110,7 @@ while(True):
         table = soup.find(width="100%")
         tr = table.find_all("tr")
         i = 0
+        temp = ''
         for t in tr:
             i = i + 1
             if(i > 1):
@@ -122,11 +123,11 @@ while(True):
                 d2 = datetime.datetime.strptime(future, '%Y-%m-%d')
                 delta = d2 - d1
                 x.add_row([book.string, td[2].string, d1, d2, delta.days])
-                if(delta.days < 10):
-                    str = '《' + book.string + '》还有' +  str(delta.days) + '天就要到期了，记得续借哟！\n' + '应还日期' + str(d2)
-                    print(str)
-                    Email(str)
-
+                if(delta.days <= 7):
+                    temp = temp + '《' + book.string + '》还有' + str(delta.days) + '天就要到期了，记得续借哟！\n' + '应还日期' + str(d2) + '\n\n'
+        print(temp)
+        if(temp):
+            Email(temp)
         print(x)
         input()
         break
