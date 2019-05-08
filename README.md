@@ -1,4 +1,4 @@
-* [jwxt.py：续借图书](https://github.com/cyh42/UPC/blob/master/jwxt.py)
+* [jwxt.py：新版教务系统成绩爬虫](https://github.com/cyh42/UPC/blob/master/jwxt.py)
 * [library1.py：续借图书](https://github.com/cyh42/UPC/blob/master/library1.py)
 * [szsd2jwxt.py：模拟登录数字石大跳转教务系统爬取成绩](https://github.com/cyh42/UPC/blob/master/szsd2jwxt.py)
 * [classroom.py：查询次日空闲教室并自动发送结果到邮箱](https://github.com/cyh42/UPC/blob/master/classroom.py)
