@@ -82,7 +82,7 @@ def cjcx(username, psw):
     r = re.findall('<a href="(.*?)">', r.text, re.S)[0]
     s.get(r)
     r = s.get('http://211.87.177.34/jsxsd/kscj/cjcx_list?kksj=2018-2019-2&kcxz=&kcmc=&xsfs=all')
-    # print(r.text)
+    # 全部成绩url = 'http://211.87.177.34/jsxsd/kscj/cjcx_list'
     soup = BeautifulSoup(r.text, "lxml")
     fillScoreList(soup)
     printScoreList(len(allScore))
