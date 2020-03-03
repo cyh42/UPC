@@ -21,8 +21,9 @@ try:
     time.sleep(2)
     btn = driver.find_element_by_xpath('/html/body/div[1]/div/div/section/div[5]/div/a')
     btn.click()
-    # 还有最后一步确认，因为今天签过了所以没能得到对应xpath
-    
+    # 二次确认
+    btn_ok = driver.find_element_by_xpath('//*[@id="wapcf"]/div/div[2]/div[2]')
+    btn_ok.click()
     print('签到成功！')
 except Exception as e:
     print(e)
